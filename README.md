@@ -1,1 +1,1 @@
-# matricy-fun
+# matrix-fun
