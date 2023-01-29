@@ -1,5 +1,5 @@
 def clearScreen():
-    print(f"{chr(10)*12}")
+    print(f"{chr(10)*10}")
 
 class Matrix:
     def __init__(self, name, rows, columns):
@@ -131,8 +131,57 @@ class Matrix:
         print("\n")
         state = input(f"Press enter to continue.\n") == 'y'
 
+      def printStep(self,string):
+        print(chr(10)+string)
+        for i in range(self.rows):
+            for j in range(self.columns):
+                print(str(self.data[i][j]), end="\t"),
+            print("")      
+        
+        
     def rref(self):
         if self.verifySize():
             return 0
         if self.verifyData():
             return 0
+        self.printStep(f"{chr(10)*3}Begin with this {self.rows}x{self.columns} matrix:")
+        precision = 2
+        for currentRow in range (0,min(self.rows,self.columns)):
+            #divide r1 by [1][1]
+            c=self.data[currentRow][currentRow]
+            if c == 0.0:
+                switchCounter=0
+                while c==0 and switchCounter<self.rows-currentRow:
+                    templist=self.data[currentRow]
+                    for i in range (currentRow,self.rows-1):
+                        self.data[i]=self.data[i+1]
+                    self.data[self.rows-1]=templist
+                    # self.printStep(f"Shift row {currentRow+1} to row {self.rows}")
+                    switchCounter=switchCounter+1
+                    c=self.data[currentRow][currentRow]
+                self.printStep(f"Swap rows:")
+            if c != 1.0 and c != 0.0: 
+                self.data[currentRow] = [round(self.data[currentRow][i]/c,precision) for i in range (0,self.columns)]
+                for i in range (0,self.columns):
+                    if self.data[currentRow][i] == -0.00:
+                        self.data[currentRow][i] = 0.00
+                self.printStep(f"Divide row {currentRow+1} by {c}:")
+            # subtract r1 * [r][1] from each row
+            subtract = False
+            for i in range (0,self.rows):
+                if self.data[i][currentRow] != 0.0:
+                    if i == currentRow:
+                        continue
+                    subtract = True
+                    break
+            if c ==0.0:
+                subtract = False
+            if subtract:
+                for r in range (0,self.rows):
+                    if r == currentRow:
+                        continue
+                    c=self.data[r][currentRow]
+                    self.data[r]=[round(self.data[r][i]-self.data[currentRow][i]*c,precision) for i in range (0,self.columns)]
+                self.printStep(f"Subtract row {currentRow+1} from all other rows:")
+        self.printStep("RREF complete.")
+        input("Press enter to return to main menue.")
