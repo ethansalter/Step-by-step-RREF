@@ -140,7 +140,7 @@ class Matrix:
         
         
     def rref(self):
-      if self.verifySize():
+        if self.verifySize():
             return 0
         if self.verifyData():
             return 0
