@@ -1,5 +1,5 @@
 def clearScreen():
-    print(f"{chr(10)*10}")
+    print(f"{chr(10)*12}")
 
 class Matrix:
     def __init__(self, name, rows, columns):
